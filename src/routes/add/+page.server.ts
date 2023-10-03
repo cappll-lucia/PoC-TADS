@@ -9,7 +9,7 @@ export const actions = {
 		if (!description || description.length === 0) {
 			return fail(400, { description: { value: description, missing: true } });
 		}
-		addTodo({ description });
+		addTodo(description);
 		throw redirect(302, '/list');
 	}
 } satisfies Actions;

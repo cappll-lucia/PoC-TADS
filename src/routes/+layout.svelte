@@ -1,7 +1,8 @@
-<h1>Our beautilful ToDo app</h1>
-<nav>
-	<a href="/add">Add todo</a>
-	<a href="/list">List todos</a>
-</nav>
+<script lang="ts">
+	import Navbar from '../components/Navbar.svelte';
+</script>
 
-<slot />
+<div class="container">
+	<Navbar />
+	<slot />
+</div>

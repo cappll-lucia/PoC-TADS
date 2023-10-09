@@ -24,10 +24,5 @@ export function getTodos() {
 }
 
 export function editTodo(todo: Todo) {
-	console.log('::::::::::: edit ', todo)
 	ourLittleDb[todo.id - 1] = { ...todo }
-}
-
-export function deleteTodoById(id: number) {
-	ourLittleDb.splice(id - 1, 1);
 }

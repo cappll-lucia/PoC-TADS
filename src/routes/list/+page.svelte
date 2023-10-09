@@ -1,57 +1,35 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { get } from 'svelte/store';
 	import type { PageData } from './$types';
 	export let data: PageData;
 	const { todos } = data;
-
-	interface TodoVisibility {
-		[id: number]: boolean;
-	}
-
-	const todoVisibility: TodoVisibility = {};
-	todos.forEach((todo) => {
-		console.log(todo);
-		todoVisibility[todo.id] = false;
-	});
+	console.log(todos);
 </script>
 
 <h2>List Todos</h2>
-
-<form class="edit-delete-form" method="post">
-	{#each todos as todo}
+{#each todos as todo (todo.id)}
+	<form class="edit-delete-form" method="post" use:enhance>
 		<div class="todo-item">
 			<div class="todo-item-line">
-				<input name="id" value={todo.id} />
+				<input name="id" hidden value={todo.id} />
+				<input name="description" hidden value={todo.description} />
 				<input
 					type="checkbox"
 					name="done"
 					checked={todo.done}
-					value={todo.done}
+					value={todo.done ? 'true' : 'false'}
 					on:click={() => (todo.done = !todo.done)}
+					class="checkbox"
 				/>
 				<label class={todo.done ? 'done' : 'no-dones'} for="description"> {todo.description}</label>
-				<button
-					type="button"
-					class={!todoVisibility[todo.id] ? 'mini-btn btn-edit' : 'mini-btn btn-close'}
-					on:click={() => (todoVisibility[todo.id] = !todoVisibility[todo.id])}
-				>
-					<i class={!todoVisibility[todo.id] ? 'mi mi-add' : 'mi mi-close'} />
-				</button>
-				<button type="button" class="mini-btn btn-delete">
-					<i class="mi mi-delete" />
+				<button type="submit" class="mini-btn btn-save">
+					<i class="mi mi-cloud-upload" />
 				</button>
 			</div>
-			{#if todoVisibility[todo.id]}
-				<div class="todo-item-edition">
-					<input name="description" value={todo.description} />
-					<button type="submit" class="mini-btn btn-save">
-						<i class="mi mi-cloud-upload" />
-					</button>
-				</div>
-			{/if}
 		</div>
-	{/each}
-</form>
+	</form>
+{/each}
 
 <style>
 	.edit-delete-form {
@@ -69,44 +47,44 @@
 		justify-content: space-between;
 		flex-direction: row;
 	}
-	.todo-item .todo-item-edition {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		flex-direction: row;
-	}
-	.todo-item .todo-item-edition input {
-		height: 2rem;
-		margin-right: 1rem;
-	}
+
 	.mini-btn {
-		height: 1rem;
+		height: 2rem;
 		width: 1rem;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		padding: 1rem;
 	}
-	.btn-close,
-	.btn-delete {
-		background-color: transparent;
-		border: none;
-		color: #e53935;
-	}
-	.btn-edit {
-		background-color: transparent;
-		border: none;
-		color: #1e88e5;
-	}
+
 	.btn-save {
 		background-color: #43a047;
 		border: #43a047;
+		margin: 0;
 	}
+
 	.todo-item .todo-item-line label {
 		text-align: left;
 		width: 22rem;
+		height: 2rem;
+	}
+	.todo-item .todo-item-line .checkbox {
+		text-align: left;
+		width: 2rem;
+		height: 2rem;
 	}
 	.todo-item .done {
 		text-decoration: line-through;
+	}
+
+	@media (max-width: 950px) {
+		.edit-delete-form {
+			width: 70%;
+		}
+	}
+	@media (max-width: 650px) {
+		.edit-delete-form {
+			width: 100%;
+		}
 	}
 </style>

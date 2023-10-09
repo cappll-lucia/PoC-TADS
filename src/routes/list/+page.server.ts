@@ -13,15 +13,11 @@ export const load = () => {
 export const actions: Actions = {
 	default: async ({ request }) => {
 		const formData = await request.formData();
-		console.log(formData)
-		const todo = {} as Todo;
-		const desc = formData.get('description')?.toString();
-		if (!desc || desc.length === 0) {
-			return fail(400, { description: { value: desc, missing: true } });
-		}
-		todo.id = parseInt(formData.get('id')?.toString() || '0');
-		todo.description = desc;
-		todo.done = formData.get('done') === 'on';
+		const todo = {
+			id: parseInt(formData.get('id')?.toString() || '0'),
+			description: formData.get('description')?.toString() || '',
+			done: formData.get('done') ? true : false
+		} as Todo;
 		editTodo(todo);
 		throw redirect(302, '/list');
 	}

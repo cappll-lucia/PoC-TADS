@@ -4,7 +4,6 @@
 	import type { PageData } from './$types';
 	export let data: PageData;
 	const { todos } = data;
-	console.log(todos);
 </script>
 
 <h2>List Todos</h2>

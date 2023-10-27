@@ -11,7 +11,7 @@ export const load = () => {
 };
 
 export const actions: Actions = {
-	default: async ({ request }) => {
+	changeStatus: async ({ request }) => {
 		const formData = await request.formData();
 		const todo = {
 			id: parseInt(formData.get('id')?.toString() || '0'),

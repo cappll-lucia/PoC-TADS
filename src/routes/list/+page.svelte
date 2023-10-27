@@ -8,7 +8,7 @@
 
 <h2>List Todos</h2>
 {#each todos as todo (todo.id)}
-	<form class="edit-delete-form" method="post" use:enhance>
+	<form class="edit-delete-form" method="post" action="?/changeStatus" use:enhance>
 		<div class="todo-item">
 			<div class="todo-item-line">
 				<input name="id" hidden value={todo.id} />
